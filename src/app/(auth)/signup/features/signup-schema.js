@@ -12,5 +12,5 @@ export const signupSchema = z
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
-    path: ["confirmPassword"], // алдааг confirmPassword талбар дээр харуулна
+    path: ["confirmPassword"],
   });

@@ -1,48 +1,59 @@
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
+"use client";
 
-export function StepTwo({ register, errors, showPassword, setShowPassword }) {
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { Input } from "@/components/ui/input";
+
+// Нууц үгийн талбар + баруун талд харуулах/нуух товч.
+// Талбар бүр өөрийн state-тэй тул тус тусад нь нээж/хааж болно.
+function PasswordInput({ id, placeholder, registration, error, autoComplete }) {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <div className="relative">
+        <Input
+          id={id}
+          type={visible ? "text" : "password"}
+          placeholder={placeholder}
+          autoComplete={autoComplete}
+          {...registration}
+          className={`w-full py-6 pr-12 text-base rounded-xl border-slate-300 focus-visible:ring-slate-400 ${
+            error ? "border-red-500 focus-visible:ring-red-500" : ""
+          }`}
+        />
+        <button
+          type="button" // form submit хийхгүйн тулд заавал type="button"
+          onClick={() => setVisible((prev) => !prev)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 cursor-pointer"
+          aria-label={visible ? "Hide password" : "Show password"}
+        >
+          {visible ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+        </button>
+      </div>
+      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+    </div>
+  );
+}
+
+export function StepTwo({ register, errors }) {
   return (
     <div className="space-y-4">
-      <Input
+      <PasswordInput
         id="password"
-        type={showPassword ? "text" : "password"}
         placeholder="Password"
-        {...register("password")}
-        className={`w-full py-6 text-base rounded-xl border-slate-300 focus-visible:ring-slate-400 ${
-          errors.password ? "border-red-500 focus-visible:ring-red-500" : ""
-        }`}
+        autoComplete="new-password"
+        registration={register("password")}
+        error={errors.password}
       />
-      {errors.password && (
-        <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-      )}
 
-      <Input
+      <PasswordInput
         id="confirmPassword"
-        type={showPassword ? "text" : "password"}
         placeholder="Confirm password"
-        {...register("confirmPassword")}
-        className={`w-full py-6 text-base rounded-xl border-slate-300 focus-visible:ring-slate-400 ${
-          errors.confirmPassword ? "border-red-500 focus-visible:ring-red-500" : ""
-        }`}
+        autoComplete="new-password"
+        registration={register("confirmPassword")}
+        error={errors.confirmPassword}
       />
-      {errors.confirmPassword && (
-        <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
-      )}
-
-      <div className="flex items-center space-x-2">
-        <Checkbox
-          id="show-password"
-          checked={showPassword}
-          onCheckedChange={(checked) => setShowPassword(checked)}
-        />
-        <label
-          htmlFor="show-password"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Show password
-        </label>
-      </div>
     </div>
   );
 }
