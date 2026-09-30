@@ -19,7 +19,7 @@ export default function Footer() {
             "
             >
               <Image
-                src="/pictures/Logocontainerwhite.png"
+                src="/pictures/LogoContainerwhite.png"
                 alt="NomNom"
                 className="object-contain"
                 fill

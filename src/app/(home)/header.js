@@ -232,7 +232,7 @@ export default function Header() {
         className="h-11 relative w-41.25 cursor-pointer"
       >
         <Image
-          src="/pictures/Logocontainerwhite.png"
+          src="/pictures/LogoContainerwhite.png"
           alt="NomNom"
           className="rounded-xl object-contain"
           priority
